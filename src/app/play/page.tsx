@@ -1898,16 +1898,40 @@ function PlayPageClient() {
         ],
         // 控制栏配置
         controls: [
+          // 左侧按钮组（向左靠拢）
           {
             position: 'left',
-            index: 13,
-            html: '<i class="art-icon flex"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg></i>',
-            tooltip: '播放下一集',
-            click: function () {
-              handleNextEpisode();
-            },
+            html: '<i class="art-icon art-icon-play"></i>',
+            index: 1,
+            click: function() { this.toggle(); }
           },
-        ],
+          {
+            position: 'left',
+            html: '<i class="art-icon art-icon-volume"></i>',
+            index: 2
+          },
+          {
+            position: 'left',
+            html: '<i class="art-icon art-icon-skip"></i>',
+            index: 3,
+            click: function() { this.forward = 10; } // 快进10秒
+          },
+          
+          // 右侧按钮组（添加全屏按钮）
+          {
+            position: 'right',
+            html: '<i class="art-icon art-icon-fullscreen"></i>', // 全屏图标
+            index: 1,
+            click: function() {
+              this.fullscreen = !this.fullscreen;
+            }
+          },
+          {
+            position: 'right',
+            html: '<i class="art-icon art-icon-setting"></i>', // 设置图标
+            index: 2
+          }
+        ]
         // 弹幕插件 - 只保留原生蓝色设置与发弹幕 UI
         plugins: [
           artplayerPluginDanmuku({
