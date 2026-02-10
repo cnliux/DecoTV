@@ -1896,42 +1896,39 @@ function PlayPageClient() {
             },
           },
         ],
-        // 控制栏配置
+        // 在现有的 controls 配置数组中添加全屏按钮（右侧）
         controls: [
-          // 左侧按钮组（向左靠拢）
+          // 播放下一集按钮（左侧）- 保持现有的
           {
             position: 'left',
-            html: '<i class="art-icon art-icon-play"></i>',
-            index: 1,
-            click: function() { this.toggle(); }
-          },
-          {
-            position: 'left',
-            html: '<i class="art-icon art-icon-volume"></i>',
-            index: 2
-          },
-          {
-            position: 'left',
-            html: '<i class="art-icon art-icon-skip"></i>',
-            index: 3,
-            click: function() { this.forward = 10; } // 快进10秒
+            index: 13,
+            html: '<i class="art-icon flex"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg></i>',
+            tooltip: '播放下一集',
+            click: function () {
+              handleNextEpisode();
+            },
           },
           
-          // 右侧按钮组（添加全屏按钮）
+          // 添加全屏按钮到右侧
           {
             position: 'right',
-            html: '<i class="art-icon art-icon-fullscreen"></i>', // 全屏图标
-            index: 1,
-            click: function() {
-              this.fullscreen = !this.fullscreen;
-            }
+            index: 1, // 右侧第一个按钮
+            html: `
+              <i class="art-icon flex">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" 
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </i>
+            `,
+            tooltip: '全屏',
+            click: function () {
+              if (artPlayerRef.current) {
+                artPlayerRef.current.fullscreen = !artPlayerRef.current.fullscreen;
+              }
+            },
           },
-          {
-            position: 'right',
-            html: '<i class="art-icon art-icon-setting"></i>', // 设置图标
-            index: 2
-          }
-        ]
+        ],
         // 弹幕插件 - 只保留原生蓝色设置与发弹幕 UI
         plugins: [
           artplayerPluginDanmuku({
