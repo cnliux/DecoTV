@@ -970,108 +970,157 @@ div[data-media-provider] video {
   background-color: #000 !important; /* 其余区域填充为黑色 */
 }
 
-/* === ArtPlayer全屏按钮修复 - 安全区域适配 === */
-/* 修复全屏模式下按钮被遮挡问题 */
-.artplayer.art-fullscreen-web .art-controls {
-  /* 适配iOS和Android的安全区域 */
-  padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
-  padding-left: max(12px, env(safe-area-inset-left)) !important;
-  padding-right: max(12px, env(safe-area-inset-right)) !important;
-}
+/* === ArtPlayer按钮布局调整 - 全屏按钮在设置按钮之前 === */
 
-/* 修复右侧按钮组（包含全屏按钮） */
-.artplayer.art-fullscreen-web .art-controls-right {
-  margin-right: env(safe-area-inset-right, 0px) !important;
-  padding-right: max(8px, env(safe-area-inset-right, 10px)) !important;
-  min-width: 140px !important;
-  gap: 6px !important;
-}
-
-/* === 正常播放模式按钮布局调整 === */
-/* 将设置按钮和全屏按钮往左边靠拢 */
-
-/* 1. 调整右侧按钮组，让按钮靠左排列 */
-.artplayer:not(.art-fullscreen-web) .art-controls-right {
+/* 1. 控制栏整体布局 */
+.artplayer .art-controls {
   display: flex !important;
-  justify-content: flex-start !important; /* 改为靠左排列 */
-  margin-left: 0 !important;
-  margin-right: auto !important; /* 确保不靠右 */
-  gap: 8px !important;
-  min-width: auto !important;
-  padding-left: 12px !important; /* 左侧内边距 */
+  align-items: center !important;
+  padding: 0 16px !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-/* 2. 确保设置按钮和全屏按钮可见 */
-.artplayer:not(.art-fullscreen-web) .art-controls-right .art-icon-setting,
-.artplayer:not(.art-fullscreen-web) .art-controls-right .art-icon-fullscreenWeb {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  min-width: 40px !important;
-  min-height: 40px !important;
-  padding: 8px !important;
-  margin: 0 !important;
-}
-
-/* 3. 保持左侧按钮组布局不变 */
-.artplayer:not(.art-fullscreen-web) .art-controls-left {
+/* 2. 左侧按钮组（播放控制按钮） */
+.artplayer .art-controls-left {
   display: flex !important;
   gap: 8px !important;
+  order: 1 !important;
+  flex-shrink: 0 !important;
   margin-right: auto !important;
 }
 
-/* 4. 确保中间进度条区域有足够空间 */
-.artplayer:not(.art-fullscreen-web) .art-controls-center {
+/* 3. 中间区域（进度条等） */
+.artplayer .art-controls-center {
   flex: 1 !important;
-  min-width: 0 !important; /* 允许压缩 */
-  margin: 0 12px !important;
+  margin: 0 20px !important;
+  min-width: 0 !important;
+  order: 2 !important;
 }
 
-/* 5. 控制栏整体布局优化 */
-.artplayer:not(.art-fullscreen-web) .art-controls {
+/* 4. 右侧按钮组 - 按指定顺序排列 */
+.artplayer .art-controls-right {
+  display: flex !important;
+  order: 3 !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+  flex-direction: row !important;
+  margin-left: auto !important;
+}
+
+/* 5. 全屏按钮 - 排在第一位 */
+.artplayer .art-controls-right .art-control-fullscreenWeb,
+.artplayer .art-controls-right .art-icon-fullscreenWeb {
+  order: 1 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 6. 设置按钮 - 排在第二位 */
+.artplayer .art-controls-right .art-control-setting,
+.artplayer .art-controls-right .art-icon-setting {
+  order: 2 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 7. 音量按钮 - 排在第三位 */
+.artplayer .art-controls-right .art-control-volume,
+.artplayer .art-controls-right .art-icon-volume {
+  order: 3 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 8. 画中画按钮 - 排在第四位 */
+.artplayer .art-controls-right .art-control-pip,
+.artplayer .art-controls-right .art-icon-pip {
+  order: 4 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 9. 确保所有按钮都有合适的尺寸 */
+.artplayer .art-controls-right > * {
+  min-width: 40px !important;
+  min-height: 40px !important;
+  padding: 8px !important;
   display: flex !important;
   align-items: center !important;
-  padding: 0 12px !important;
-  justify-content: space-between !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
 }
 
-/* 6. 小屏幕适配 */
+/* 10. 小屏幕适配 */
 @media (max-width: 768px) {
-  .artplayer:not(.art-fullscreen-web) .art-controls-right {
-    gap: 6px !important;
-    padding-left: 8px !important;
+  .artplayer .art-controls {
+    padding: 0 12px !important;
   }
   
-  .artplayer:not(.art-fullscreen-web) .art-controls-right .art-icon-setting,
-  .artplayer:not(.art-fullscreen-web) .art-controls-right .art-icon-fullscreenWeb {
+  .artplayer .art-controls-center {
+    margin: 0 12px !important;
+  }
+  
+  .artplayer .art-controls-right {
+    gap: 6px !important;
+  }
+  
+  .artplayer .art-controls-right > * {
     min-width: 36px !important;
     min-height: 36px !important;
     padding: 6px !important;
   }
-  
-  .artplayer:not(.art-fullscreen-web) .art-controls-center {
-    margin: 0 8px !important;
-  }
 }
 
-/* 7. 超小屏幕进一步优化 */
+/* 11. 超小屏幕优化 */
 @media (max-width: 375px) {
-  .artplayer:not(.art-fullscreen-web) .art-controls {
+  .artplayer .art-controls {
     padding: 0 8px !important;
   }
   
-  .artplayer:not(.art-fullscreen-web) .art-controls-right {
-    gap: 4px !important;
-    padding-left: 6px !important;
+  .artplayer .art-controls-center {
+    margin: 0 8px !important;
   }
   
-  .artplayer:not(.art-fullscreen-web) .art-controls-right .art-icon-setting,
-  .artplayer:not(.art-fullscreen-web) .art-controls-right .art-icon-fullscreenWeb {
+  .artplayer .art-controls-right {
+    gap: 4px !important;
+  }
+  
+  .artplayer .art-controls-right > * {
     min-width: 32px !important;
     min-height: 32px !important;
     padding: 4px !important;
   }
 }
+
+/* 12. 防止任何按钮被隐藏 */
+.artplayer .art-controls-right .art-control-fullscreenWeb,
+.artplayer .art-controls-right .art-icon-fullscreenWeb,
+.artplayer .art-controls-right .art-control-setting,
+.artplayer .art-controls-right .art-icon-setting,
+.artplayer .art-controls-right .art-control-volume,
+.artplayer .art-controls-right .art-icon-volume,
+.artplayer .art-controls-right .art-control-pip,
+.artplayer .art-controls-right .art-icon-pip {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+}
+
+/* 13. 针对ArtPlayer特定类的额外保证 */
+.artplayer .art-control-fullscreenWeb,
+.artplayer .art-control-setting {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 /* DecoTV 炫酷动画效果 */
 @keyframes blob {
   0%,
