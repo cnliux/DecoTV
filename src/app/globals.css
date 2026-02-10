@@ -987,54 +987,132 @@ div[data-media-provider] video {
   gap: 6px !important;
 }
 
-/* === 强制显示全屏按钮（解决按钮消失问题）=== */
-/* 修正：使用正确的类名 */
-.artplayer.art-fullscreen-web .art-icon-fullscreenWeb,
-.art-fullscreenWeb-btn {
+/* === ArtPlayer全屏按钮终极防遮挡方案 === */
+
+/* 1. 最高优先级强制显示 */
+.artplayer.art-fullscreen-web .art-controls .art-controls-right .art-icon-fullscreenWeb,
+.artplayer.art-fullscreen-web [class*="fullscreen"],
+.artplayer.art-fullscreen-web .art-controls-right > *:last-child {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: relative !important;
-  right: auto !important;
   margin: 0 !important;
+  z-index: 2147483647 !important; /* 最大可能的z-index */
 }
 
-/* 确保全屏按钮有足够的触摸区域 */
-.art-icon-fullscreenWeb,
-.art-fullscreenWeb-btn {
+/* 2. 多重安全区域保护 */
+.artplayer.art-fullscreen-web .art-controls .art-controls-right {
+  margin-right: 0 !important;
+  padding-right: 
+    max(8px, 
+        env(safe-area-inset-right, 10px),
+        constant(safe-area-inset-right, 10px)) !important; /* 兼容旧版Safari */
+  min-width: 140px !important;
+  gap: 6px !important;
+  justify-content: flex-end !important;
+  
+  /* 防止容器溢出隐藏 */
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 2147483647 !important;
+}
+
+/* 3. 按钮尺寸和位置终极保护 */
+.artplayer.art-fullscreen-web .art-controls .art-controls-right .art-icon-fullscreenWeb {
   min-width: 44px !important;
   min-height: 44px !important;
   padding: 10px !important;
+  flex-shrink: 0 !important;
+  
+  /* 防止任何形式的隐藏 */
+  clip: auto !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  transform: none !important;
+  
+  /* 确保在视口内 */
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  bottom: auto !important;
 }
 
-/* 针对小屏幕的额外优化 */
+/* 4. 控制栏整体防遮挡 */
+.artplayer.art-fullscreen-web .art-controls {
+  padding-left: max(12px, env(safe-area-inset-left, 0px), constant(safe-area-inset-left, 0px)) !important;
+  padding-right: max(12px, env(safe-area-inset-right, 0px), constant(safe-area-inset-right, 0px)) !important;
+  padding-bottom: max(8px, env(safe-area-inset-bottom, 0px), constant(safe-area-inset-bottom, 0px)) !important;
+  
+  /* 确保控制栏不被遮挡 */
+  position: relative !important;
+  z-index: 2147483647 !important;
+  overflow: visible !important;
+}
+
+/* 5. 全屏容器防溢出 */
+.artplayer.art-fullscreen-web {
+  overflow: visible !important;
+  position: relative !important;
+}
+
+.artplayer.art-fullscreen-web .art-player {
+  overflow: visible !important;
+}
+
+/* 6. 小屏幕防遮挡优化 */
 @media (max-width: 375px) {
-  .artplayer.art-fullscreen-web .art-controls-right {
+  .artplayer.art-fullscreen-web .art-controls .art-controls-right {
     min-width: 120px !important;
     gap: 4px !important;
+    padding-right: max(6px, 
+                      env(safe-area-inset-right, 8px), 
+                      constant(safe-area-inset-right, 8px)) !important;
   }
   
-  .art-icon-fullscreenWeb,
-  .art-fullscreenWeb-btn {
+  .artplayer.art-fullscreen-web .art-controls .art-controls-right .art-icon-fullscreenWeb {
     min-width: 40px !important;
     min-height: 40px !important;
     padding: 8px !important;
   }
+  
+  /* 小屏幕额外安全边距 */
+  .artplayer.art-fullscreen-web .art-controls {
+    padding-bottom: max(10px, 
+                       env(safe-area-inset-bottom, 6px), 
+                       constant(safe-area-inset-bottom, 6px)) !important;
+  }
 }
 
-/* 确保在移动端全屏时按钮可见 */
-@media (max-width: 768px) {
-  .artplayer.art-fullscreen-web .art-controls {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: flex !important;
-  }
+/* 7. 极端情况兜底 - 防止任何形式的隐藏 */
+.artplayer.art-fullscreen-web .art-controls,
+.artplayer.art-fullscreen-web .art-controls-right,
+.artplayer.art-fullscreen-web .art-icon-fullscreenWeb {
+  /* 重置所有可能的隐藏属性 */
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
   
-  /* 移动端特别修复 */
-  .artplayer.art-fullscreen-web .art-controls-right {
-    display: flex !important;
-    align-items: center !important;
-  }
+  /* 防止CSS动画隐藏 */
+  animation: none !important;
+  transition: none !important;
+  
+  /* 防止变换隐藏 */
+  transform: none !important;
+  transform-style: flat !important;
+  perspective: none !important;
+  
+  /* 防止裁剪 */
+  clip: auto !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
+  mask: none !important;
+  
+  /* 确保可交互 */
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+  touch-action: auto !important;
 }
 /* DecoTV 炫酷动画效果 */
 @keyframes blob {
