@@ -970,18 +970,49 @@ div[data-media-provider] video {
   background-color: #000 !important; /* 其余区域填充为黑色 */
 }
 
-/* 隐藏移动端竖屏时的 pip 按钮 */
+/* === ArtPlayer全屏按钮修复 - 安全区域适配 === */
+/* 修复全屏模式下按钮被遮挡问题 */
+.art-fullscreen-web .art-controls {
+  /* 适配iOS和Android的安全区域 */
+  padding-bottom: max(8px, env(safe-area-inset-bottom)) !important;
+  padding-left: max(12px, env(safe-area-inset-left)) !important;
+  padding-right: max(12px, env(safe-area-inset-right)) !important;
+}
+
+/* 修复右侧按钮组（包含全屏按钮） */
+.art-fullscreen-web .art-controls-right {
+  margin-right: env(safe-area-inset-right, 0px) !important;
+  padding-right: max(8px, env(safe-area-inset-right, 10px)) !important;
+  min-width: 140px !important;  /* 确保有足够空间 */
+  gap: 6px !important;  /* 按钮间距 */
+}
+
+/* 确保全屏按钮有足够的触摸区域 */
+.art-fullscreen-btn {
+  min-width: 44px !important;
+  min-height: 44px !important;
+  padding: 10px !important;
+}
+
+/* 针对小屏幕的额外优化 */
+@media (max-width: 375px) {
+  .art-fullscreen-web .art-controls-right {
+      min-width: 120px !important;
+      gap: 4px !important;
+  }
+  
+  .art-fullscreen-btn {
+      min-width: 40px !important;
+      min-height: 40px !important;
+      padding: 8px !important;
+  }
+}
+
+/* 确保在移动端全屏时按钮可见 */
 @media (max-width: 768px) {
-  .art-control-pip {
-    display: none !important;
-  }
-
-  .art-control-fullscreenWeb {
-    display: none !important;
-  }
-
-  .art-control-volume {
-    display: none !important;
+  .art-fullscreen-web .art-controls {
+      opacity: 1 !important;
+      visibility: visible !important;
   }
 }
 
