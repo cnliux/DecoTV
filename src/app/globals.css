@@ -970,155 +970,19 @@ div[data-media-provider] video {
   background-color: #000 !important; /* 其余区域填充为黑色 */
 }
 
-/* === ArtPlayer按钮布局调整 - 全屏按钮在设置按钮之前 === */
-
-/* 1. 控制栏整体布局 */
-.artplayer .art-controls {
-  display: flex !important;
-  align-items: center !important;
-  padding: 0 16px !important;
-  justify-content: space-between !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* 2. 左侧按钮组（播放控制按钮） */
-.artplayer .art-controls-left {
-  display: flex !important;
-  gap: 8px !important;
-  order: 1 !important;
-  flex-shrink: 0 !important;
-  margin-right: auto !important;
-}
-
-/* 3. 中间区域（进度条等） */
-.artplayer .art-controls-center {
-  flex: 1 !important;
-  margin: 0 20px !important;
-  min-width: 0 !important;
-  order: 2 !important;
-}
-
-/* 4. 右侧按钮组 - 按指定顺序排列 */
-.artplayer .art-controls-right {
-  display: flex !important;
-  order: 3 !important;
-  gap: 8px !important;
-  flex-shrink: 0 !important;
-  flex-direction: row !important;
-  margin-left: auto !important;
-}
-
-/* 5. 全屏按钮 - 排在第一位 */
-.artplayer .art-controls-right .art-control-fullscreenWeb,
-.artplayer .art-controls-right .art-icon-fullscreenWeb {
-  order: 1 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* 6. 设置按钮 - 排在第二位 */
-.artplayer .art-controls-right .art-control-setting,
-.artplayer .art-controls-right .art-icon-setting {
-  order: 2 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* 7. 音量按钮 - 排在第三位 */
-.artplayer .art-controls-right .art-control-volume,
-.artplayer .art-controls-right .art-icon-volume {
-  order: 3 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* 8. 画中画按钮 - 排在第四位 */
-.artplayer .art-controls-right .art-control-pip,
-.artplayer .art-controls-right .art-icon-pip {
-  order: 4 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
-/* 9. 确保所有按钮都有合适的尺寸 */
-.artplayer .art-controls-right > * {
-  min-width: 40px !important;
-  min-height: 40px !important;
-  padding: 8px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-sizing: border-box !important;
-}
-
-/* 10. 小屏幕适配 */
+/* 隐藏移动端竖屏时的 pip 按钮 */
 @media (max-width: 768px) {
-  .artplayer .art-controls {
-    padding: 0 12px !important;
+  .art-control-pip {
+    display: none !important;
   }
-  
-  .artplayer .art-controls-center {
-    margin: 0 12px !important;
-  }
-  
-  .artplayer .art-controls-right {
-    gap: 6px !important;
-  }
-  
-  .artplayer .art-controls-right > * {
-    min-width: 36px !important;
-    min-height: 36px !important;
-    padding: 6px !important;
-  }
-}
 
-/* 11. 超小屏幕优化 */
-@media (max-width: 375px) {
-  .artplayer .art-controls {
-    padding: 0 8px !important;
+  .art-control-fullscreenWeb {
+    display: none !important;
   }
-  
-  .artplayer .art-controls-center {
-    margin: 0 8px !important;
-  }
-  
-  .artplayer .art-controls-right {
-    gap: 4px !important;
-  }
-  
-  .artplayer .art-controls-right > * {
-    min-width: 32px !important;
-    min-height: 32px !important;
-    padding: 4px !important;
-  }
-}
 
-/* 12. 防止任何按钮被隐藏 */
-.artplayer .art-controls-right .art-control-fullscreenWeb,
-.artplayer .art-controls-right .art-icon-fullscreenWeb,
-.artplayer .art-controls-right .art-control-setting,
-.artplayer .art-controls-right .art-icon-setting,
-.artplayer .art-controls-right .art-control-volume,
-.artplayer .art-controls-right .art-icon-volume,
-.artplayer .art-controls-right .art-control-pip,
-.artplayer .art-controls-right .art-icon-pip {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  z-index: 1 !important;
-}
-
-/* 13. 针对ArtPlayer特定类的额外保证 */
-.artplayer .art-control-fullscreenWeb,
-.artplayer .art-control-setting {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+  .art-control-volume {
+    display: none !important;
+  }
 }
 
 /* DecoTV 炫酷动画效果 */
