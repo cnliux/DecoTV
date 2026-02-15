@@ -1,8 +1,19 @@
-﻿export interface DanmuCustomNode {
+export interface DanmuCustomNode {
   id: string;
   name: string;
   url: string;
   token: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface PanSouNode {
+  id: string;
+  name: string;
+  serverUrl: string;
+  token: string;
+  username: string;
+  password: string;
   createdAt: number;
   updatedAt: number;
 }
@@ -81,6 +92,10 @@ export interface AdminConfig {
     danmuOutputFormat: 'json' | 'xml';
     simplifiedTraditional: 'default' | 'simplified' | 'traditional';
     customNodes?: DanmuCustomNode[];
+  };
+  PanSouConfig?: {
+    activeNodeId: string;
+    nodes: PanSouNode[];
   };
 }
 

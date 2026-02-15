@@ -71,22 +71,22 @@ const NAV_ITEMS = [
     openInNewTab: false, // 搜索不需要新标签页
   },
   {
-    key: 'netdisk',
-    href: '/netdisk',
-    icon: Cloud,
-    label: '网盘',
-    chip: 'chip-search',
-    type: 'exact',
-    openInNewTab: false,
-  },
-  {
     key: 'source-browser',
     href: '/source-browser',
     icon: SourceBrowserIcon,
     label: '源浏览器',
     chip: 'chip-source-browser',
     type: 'exact',
-    openInNewTab: false,
+    openInNewTab: true,
+  },
+  {
+    key: 'netdisk',
+    href: '/netdisk',
+    icon: Cloud,
+    label: '网盘',
+    chip: 'chip-netdisk',
+    type: 'exact',
+    openInNewTab: true,
   },
   {
     key: 'movie',
@@ -96,7 +96,7 @@ const NAV_ITEMS = [
     chip: 'chip-movie',
     type: 'douban',
     doubanType: 'movie',
-    openInNewTab: false,
+    openInNewTab: true,
   },
   {
     key: 'tv',
@@ -106,7 +106,7 @@ const NAV_ITEMS = [
     chip: 'chip-tv',
     type: 'douban',
     doubanType: 'tv',
-    openInNewTab: false,
+    openInNewTab: true,
   },
   {
     key: 'anime',
@@ -116,7 +116,7 @@ const NAV_ITEMS = [
     chip: 'chip-anime',
     type: 'douban',
     doubanType: 'anime',
-    openInNewTab: false,
+    openInNewTab: true,
   },
   {
     key: 'show',
@@ -126,7 +126,7 @@ const NAV_ITEMS = [
     chip: 'chip-show',
     type: 'douban',
     doubanType: 'show',
-    openInNewTab: false,
+    openInNewTab: true,
   },
   {
     key: 'live',
@@ -135,7 +135,7 @@ const NAV_ITEMS = [
     label: '直播',
     chip: 'chip-live',
     type: 'exact',
-    openInNewTab: false,
+    openInNewTab: true,
   },
 ] as const;
 
@@ -240,7 +240,7 @@ function TopNavbar() {
     >
       <div className='mx-auto max-w-7xl px-4'>
         {/* PC 端保留 backdrop-blur 磨砂玻璃效果 */}
-        <div className='mt-2 rounded-2xl border border-white/10 bg-white/80 dark:bg-gray-900/80 md:bg-white/30 md:dark:bg-gray-900/40 shadow-[0_0_1px_0_rgba(255,255,255,0.5),0_0_40px_-10px_rgba(99,102,241,0.5)] backdrop-blur-none md:backdrop-blur-xl'>
+        <div className='mt-2 rounded-2xl border border-white/10 bg-white/85 dark:bg-gray-900/85 md:bg-white/45 md:dark:bg-gray-900/55 shadow-[0_0_1px_0_rgba(255,255,255,0.35),0_8px_20px_-12px_rgba(15,23,42,0.45)] backdrop-blur-none md:backdrop-blur-sm'>
           <nav className='flex items-center justify-between h-14 px-3'>
             {/* Left: Logo */}
             <div className='flex items-center gap-2 min-w-0'>
@@ -266,6 +266,7 @@ function TopNavbar() {
             <div className='flex items-center justify-center gap-2 flex-wrap'>
               {NAV_ITEMS.map((item) => {
                 const Icon = item.icon;
+                const openInNewTab = item.openInNewTab;
 
                 // 【关键】使用本地状态判断激活，而非 URL
                 // 这是"乐观 UI"的核心：点击即变色，不等 URL
@@ -280,8 +281,12 @@ function TopNavbar() {
                     key={item.key}
                     href={item.href}
                     prefetch={false}
-                    useTransitionNav
-                    onClick={handleTabClick(item.key)}
+                    useTransitionNav={!openInNewTab}
+                    onClick={
+                      openInNewTab ? undefined : handleTabClick(item.key)
+                    }
+                    target={openInNewTab ? '_blank' : undefined}
+                    rel={openInNewTab ? 'noopener noreferrer' : undefined}
                     className={`inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm hover:opacity-90 transition-all glass-chip chip-glow chip-theme ${item.chip} ${
                       active ? activeRingClass : ''
                     }`}
