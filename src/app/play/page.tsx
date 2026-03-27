@@ -3164,62 +3164,54 @@ function PlayPageClient() {
           },
         ],
         // 控制栏配置
-        controls: [
-          {
-            position: 'left',
-            index: 13,
-            html: '<i class="art-icon flex"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg></i>',
-            tooltip: '播放下一集',
-            click: function () {
-              handleNextEpisode();
-            },
+      // 删除投屏相关配置，修改controls数组：
+      controls: [
+        // 播放下一集按钮（左侧）
+        {
+          position: 'left',
+          index: 13,
+          html: '<i class="art-icon flex">▶▶</i>',
+          tooltip: '播放下一集',
+          click: function () {
+            handleNextEpisode();
           },
-          buildAudioTrackControl(),
-          // 投屏按钮 - 始终显示，美观的 UI 设计
-          {
-            position: 'right',
-            index: 5,
-            html: (() => {
-              const isConnected = castConnectedRef.current;
-              const isAvailable = castAvailableRef.current;
-              // 根据状态设置不同的样式
-              let iconStyle = '';
-              if (isConnected) {
-                // 已连接：绿色高亮 + 轻微光晕效果
-                iconStyle =
-                  'color: #22c55e; filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.6));';
-              } else if (isAvailable) {
-                // 有设备可用：正常颜色
-                iconStyle = 'color: inherit;';
-              } else {
-                // 无设备/不支持：较淡的颜色
-                iconStyle = 'color: inherit; opacity: 0.6;';
-              }
-              return `<i class="art-icon flex art-cast-btn" style="padding: 0 6px; transition: all 0.2s ease; ${iconStyle}">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 18v3h3c0-1.66-1.34-3-3-3z" fill="currentColor"/>
-                  <path d="M1 14v2a5 5 0 0 1 5 5h2c0-3.87-3.13-7-7-7z" fill="currentColor"/>
-                  <path d="M1 10v2a9 9 0 0 1 9 9h2c0-6.08-4.93-11-11-11z" fill="currentColor"/>
-                  <path d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" fill="currentColor"/>
-                  ${isConnected ? '<circle cx="19" cy="19" r="3" fill="#22c55e" stroke="white" stroke-width="1"/>' : ''}
-                </svg>
-              </i>`;
-            })(),
-            tooltip: (() => {
-              if (castConnectedRef.current) {
-                return `📺 正在投屏到 ${castDeviceNameRef.current || '设备'}
-🔔 点击断开`;
-              } else if (castAvailableRef.current) {
-                return '📺 投屏到电视';
-              } else {
-                return '📺 投屏 (Chromecast)';
-              }
-            })(),
-            click: function () {
-              handleCastClick();
-            },
+        },
+        
+        // 沉浸式全屏按钮（右侧）- 替换原来的全屏按钮
+        {
+          position: 'right',
+          index: 1,
+          html: isImmersiveFullscreen 
+            ? '<i class="art-icon" style="color: #22c55e;">⛶</i>'
+            : '<i class="art-icon">⛶</i>',
+          tooltip: isImmersiveFullscreen ? '退出沉浸模式' : '进入沉浸模式',
+          click: function () {
+            handleImmersiveFullscreen();
           },
-        ],
+        },
+        
+        // 设置按钮
+        {
+          position: 'right',
+          index: 2,
+          html: '<i class="art-icon art-setting-btn">⚙️</i>',
+          tooltip: '设置',
+          click: function () {
+            this.setting.show = !this.setting.show;
+          },
+        },
+        
+        // 画中画按钮
+        {
+          position: 'right',
+          index: 3,
+          html: '<i class="art-icon art-pip-btn">📺</i>',
+          tooltip: '画中画',
+          click: function () {
+            this.pip = !this.pip;
+          },
+        },
+      ],
         // 弹幕插件 - 只保留原生蓝色设置与发弹幕 UI
         plugins: [
           // NOTE: 从 localStorage 读取用户上次的弹幕偏好设置
@@ -5347,7 +5339,7 @@ const FavoriteIcon = ({ filled }: { filled: boolean }) => {
   );
 };
 
-export default function PlayPage() {
+export 默认 function PlayPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <PlayPageClient />
