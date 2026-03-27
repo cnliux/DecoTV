@@ -3163,54 +3163,39 @@ function PlayPageClient() {
             },
           },
         ],
-        // 控制栏配置
-      controls: [
-        // 播放下一集按钮（左侧）
-        {
-          position: 'left',
-          index: 13,
-          html: '<i class="art-icon flex">▶▶</i>',
-          tooltip: '播放下一集',
-          click: function () {
-            handleNextEpisode();
-          },
-        },
-        
-        // 沉浸式全屏按钮（右侧）- 替换原来的全屏按钮
-        {
-          position: 'right',
-          index: 1,
-          html: isImmersiveFullscreen 
-            ? '<i class="art-icon" style="color: #22c55e;">⛶</i>'
-            : '<i class="art-icon">⛶</i>',
-          tooltip: isImmersiveFullscreen ? '退出沉浸模式' : '进入沉浸模式',
-          click: function () {
-            handleImmersiveFullscreen();
-          },
-        },
-        
-        // 设置按钮
-        {
-          position: 'right',
-          index: 2,
-          html: '<i class="art-icon art-setting-btn">⚙️</i>',
-          tooltip: '设置',
-          click: function () {
-            this.setting.show = !this.setting.show;
-          },
-        },
-        
-        // 画中画按钮
-        {
-          position: 'right',
-          index: 3,
-          html: '<i class="art-icon art-pip-btn">📺</i>',
-          tooltip: '画中画',
-          click: function () {
-            this.pip = !this.pip;
-          },
-        },
-      ],
+        // 在现有的 controls 配置数组中添加全屏按钮（右侧）
+        controls: [
+            // 播放下一集按钮（左侧）- 保持现有的
+            {
+              position: 'left',
+              index: 13,
+              html: '<i class="art-icon flex"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" fill="currentColor"/></svg></i>',
+              tooltip: '播放下一集',
+              click: function () {
+                handleNextEpisode();
+              },
+            },
+            
+            // 添加全屏按钮到右侧
+            {
+              position: 'right',
+              index: 1, // 右侧第一个按钮
+              html: `
+                <i class="art-icon flex">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" 
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </i>
+              `,
+              tooltip: '全屏',
+              click: function () {
+                if (artPlayerRef.current) {
+                  artPlayerRef.current.fullscreen = !artPlayerRef.current.fullscreen;
+                }
+              },
+            },
+          ],
         // 弹幕插件 - 只保留原生蓝色设置与发弹幕 UI
         plugins: [
           // NOTE: 从 localStorage 读取用户上次的弹幕偏好设置
