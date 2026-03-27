@@ -3164,7 +3164,6 @@ function PlayPageClient() {
           },
         ],
         // 控制栏配置
-      // 删除投屏相关配置，修改controls数组：
       controls: [
         // 播放下一集按钮（左侧）
         {
@@ -5339,7 +5338,7 @@ const FavoriteIcon = ({ filled }: { filled: boolean }) => {
   );
 };
 
-export 默认 function PlayPage() {
+export default function PlayPage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <PlayPageClient />
